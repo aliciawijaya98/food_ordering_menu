@@ -331,5 +331,3 @@ while True:
 
     else:
         print("Pilihan salah")
-
-
