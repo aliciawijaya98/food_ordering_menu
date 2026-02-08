@@ -34,6 +34,8 @@ def main_menu():
         # Logout only visible if user logged in
         if current_user:
             print("3. Logout")
+        else:
+            print("3. -")
 
         print("4. Exit Program")
 
