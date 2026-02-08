@@ -1,5 +1,5 @@
 #Initial menu data
-menu_dict = [
+menu_list = [
     {"category": "Appetizers", "item": "Spring Rolls", "price": 30000},
     {"category": "Appetizers", "item": "Garlic Bread", "price": 25000},
     {"category": "Appetizers", "item": "Chicken Wings", "price": 40000},
@@ -18,8 +18,11 @@ menu_dict = [
 ]
 #Return the lastest menu
 def get_menu():
-    return menu_dict
+    return menu_list.copy()
 
 #Add a new item to the menu
 def add_menu_item(item_dict):
-    menu_dict.append(item_dict)
+    if "category" in item_dict and \
+       "item" in item_dict and \
+       "price" in item_dict:
+        menu_list.append(item_dict)

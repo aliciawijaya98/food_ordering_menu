@@ -4,36 +4,49 @@ from menu_database import get_menu
 orders = {}
 
 #ORDER MENU DISPLAY
-def order_type():
+def order_type(current_user):
     while True:
         print("\nSelect the order type:")
         print("1. Dine-in")
         print("2. Takeaway")
-        print("3. Exit program")
+        print("3. Back to Order Menu")
 
-        user_input = int(input("Choose between 1-3: "))
+        try:
+            user_input = int(input("Choose between 1-3: "))
+        except ValueError:
+            print("Must be a number.")
+            continue
 
         if user_input == 1:
-            dine_in()
+            dine_in(current_user)
         elif user_input == 2:
-            takeaway()
+            takeaway(current_user)
         elif user_input == 3:
             print("\nSession ended.")
             break
         else:
             print("Invalid option. Please choose 1-3.")
 
-def dine_in():
+def dine_in(current_user):
     table_num = input("Insert table number: ")
+
+    if table_num in orders:
+        print("Existing order found:")
+        show_orders(table_num)
+
     print(f"Dine-in selected. Table number: {table_num}")
-    add_order(order_type="Dine-in", extra_info=table_num)
+    add_order("Dine-in", table_num, current_user)
 
-def takeaway():
+def takeaway(current_user):
     invoice_num = input("Insert invoice number: ")
+    if invoice_num in orders:
+        print("Existing order found:")
+        show_orders(invoice_num)
+        
     print(f"Takeaway selected. Invoice number: {invoice_num}")
-    add_order(order_type="Takeaway", extra_info=invoice_num)
+    add_order("Takeaway", invoice_num, current_user)
 
-def add_order(order_type, extra_info):
+def add_order(order_type, extra_info, current_user):
 
     current_menu = get_menu()
     current_order = []
@@ -65,14 +78,24 @@ def add_order(order_type, extra_info):
             if not current_order:
                 print("No items ordered")
             else:
-                print(f"Finish ordering. This order is for Table {extra_info}" if order_type == "Dine-in" else f"This order is for Invoice {extra_info}")
+                if order_type == "Dine-in":
+                    print(f"Finish ordering. Table {extra_info}")
+                else:
+                    print(f"Finish ordering. Invoice {extra_info}")
                 
                 #show only current table/invoice order
-                orders[extra_info] = current_order
+                if extra_info in orders:
+                    orders[extra_info]["items"].extend(current_order)
+                    orders[extra_info]["cashier"] = current_user
+                else:
+                    orders[extra_info] = {
+                        "cashier": current_user,
+                        "items": current_order
+                    }
                 show_orders(extra_info)
             break 
 
-        elif not (1 <= int(user_input) <= len(current_menu)):
+        elif not (1 <= user_input <= len(current_menu)):
             print("Invalid input. Try again")
             continue
 
@@ -106,7 +129,10 @@ def show_orders(extra_info):
         print(f"No orders yet for {extra_info}.")
         return
 
-    current_order = orders[extra_info]
+    order_data = orders[extra_info]
+    current_order = order_data["items"]
+    
+    print(f"\nCashier: {order_data['cashier']}")
 
     print(f"=== ALL ORDER SUMMARY FOR {extra_info}===")
     column_width = "{:<5} | {:<30} | {:<10} | {:<15} | {:<15}"
@@ -125,4 +151,4 @@ def show_orders(extra_info):
     print(f"\nGrand Total: {grand_total_format}")
 
 if __name__ == "__main__":
-    order_type()
+    order_type("TEST_USER")
