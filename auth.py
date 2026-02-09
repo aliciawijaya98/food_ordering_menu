@@ -171,15 +171,15 @@ def register():
     # ---------- Hobby ----------
     print("\n[Hobby Rules]")
     print("- Minimum two words")
-    print("- Alphabet only")
+    print("- Letters only")
 
     while True:
-        hobby = input("Hobby: ").strip()
-        hobby_kata = hobby.split()
+        hobby = input("Hobby (separate multiple hobbies with comma): ").strip()
+        hobbies = [h.strip() for h in hobby.split(",") if h.strip()]
 
-        if len(hobby_kata) > 1 and all(w.isalpha() for w in hobby_kata):
+        if len(hobbies) >= 2 and all(all(c.isalpha() or c == " " for c in activity) for activity in hobbies):
             break
-        print("Hobby must contain at least two alphabet words")
+        print("Hobby must contain at least two activities (letters only)")
 
     # ---------- Address ----------
     print("\nAddress Information")
