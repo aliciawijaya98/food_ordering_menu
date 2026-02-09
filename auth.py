@@ -93,9 +93,8 @@ def register():
     # ---------- UserID ----------
     print("\n[UserID Rules]")
     print("- Length 6–20 characters")
-    print("- Must contain letters and numbers")
-    print("- No special characters")
-    print("- Must be unique")
+    print("- Can contain letters, numbers, dots (.) and underscores (_)")
+    print("- No other special characters allowed")
 
     while True:
         uid = input("UserID: ").strip()
@@ -106,10 +105,8 @@ def register():
     # ---------- Password ----------
     print("\n[Password Rules]")
     print("- Minimum 8 characters")
-    print("- Must contain uppercase letter")
-    print("- Must contain lowercase letter")
-    print("- Must contain number")
-    print("- Must contain special character (/ . , @ # $ %)")
+    print("- Must include at least one uppercase letter, one lowercase letter, and one number")
+    print("- Must include at least one special character: / . , @ # $ % (no other symbols allowed)")
 
     while True:
         pw = input("Password: ")
@@ -119,8 +116,7 @@ def register():
 
     # ---------- Email ----------
     print("\n[Email Rules]")
-    print("- Must contain @")
-    print("- Domain must contain dot")
+    print("- Must contain '@' and a dot (.) after it")
     print("- Example: user@mail.com")
 
     while True:
