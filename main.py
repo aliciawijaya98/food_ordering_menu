@@ -21,28 +21,42 @@ def main_menu():
     while True:
         print("=== RestoApps ===")
 
+        menu = []
+
         # Show login option if user not logged in
         if not current_user:
-            print("0. Login and Register")
+            menu.append("Login and Register")
         else:
-            print("0. User Menu")
+            menu.append("User Menu")
 
         # Main features
-        print("1. Menu Management")
-        print("2. Order Management")
+        menu += ["Menu Management", "Order Management"]
 
         # Logout only visible if user logged in
         if current_user:
-            print("3. Logout")
-        else:
-            print("3. -")
+            menu.append("Logout")
 
-        print("4. Exit Program")
+        menu.append("Exit Program")
 
-        choice = input("Choose: ")
+        #Print the main_menu with numbers
+        for index, item in enumerate(menu, start=1):
+            print(f"{index}. {item}")
 
+        #Get user choice
+        try:
+            choice = int(input("Choose: "))
+        except ValueError:
+            print("Please enter a valid number!")
+            continue
+
+        #User choice to action dynamically
+        index = choice - 1
+        if not (0 <= index < len(menu)):
+            print("Invalid option. Please try again.")
+            continue
+        
         # ---------- LOGIN / USER MENU ----------
-        if choice == "0":
+        if selected_choice in ["Login and Register", "User Menu"]:
             # Login/Register flow
             if not current_user:
                 user = auth_menu()
@@ -59,7 +73,7 @@ def main_menu():
                     current_user = result
 
         # ---------- MENU MANAGEMENT ----------
-        elif choice == "1":
+        elif selected_choice == "Menu Management":
             if not current_user:
                 print("Please Login First!")
                 continue
@@ -67,7 +81,7 @@ def main_menu():
             menu_management()
 
         # ---------- ORDER MANAGEMENT ----------
-        elif choice == "2":
+        elif selected_choice == "Order Management":
             if not current_user:
                 print("Please Login First!")
                 continue
@@ -75,12 +89,12 @@ def main_menu():
             order_management()
 
         # ---------- LOGOUT ----------
-        elif choice == "3" and current_user:
+        elif selected_choice == "Logout" and current_user:
             print(f"User '{current_user}' logged out")
             current_user = None
 
         # ---------- EXIT PROGRAM ----------
-        elif choice == "4":
+        elif choice == "Exit Program":
             print("Session ended")
             break
 
