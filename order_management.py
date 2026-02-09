@@ -70,7 +70,12 @@ def add_order(order_type, extra_info, current_user):
                 print(f"{i}. {order['quantity']} x {order['item']} = Rp{order['total']:,}".replace(",", "."))
 
             #Delete order
-            delete_input = input("Type 'd' to delete an item, or Enter to continue: ").strip().lower()
+            while True:
+                delete_input = input("Type 'd' to delete an item, or Enter to continue: ").strip().lower()
+                if delete_input in ["d", ""]:
+                    break
+                print("Invalid input. Type 'd' or press Enter to continue.")
+            
             if delete_input == "d":
                 try:
                     del_index = int(input("Which item number to delete? "))
