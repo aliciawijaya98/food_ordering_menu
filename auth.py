@@ -370,7 +370,7 @@ def edit_profile(uid):
             else:
                 print("Phone must be numeric and 11-13 digits. Try again.")
 
-    print("\n✅ Profile updated successfully.")
+    print("\n Profile updated successfully.")
 
 # ---------- Delete Account ----------
 def delete_account(uid):
