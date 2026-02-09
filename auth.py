@@ -394,12 +394,11 @@ def auth_menu():
 def user_menu(user):
     while True:
         print("\n=== USER MENU ===")
-        print("Commands:")
-        print("1 - View Profile")
-        print("2 - Edit Profile")
-        print("3 - Delete Account")
-        print("4 - Back to Main Menu")
-        print("5 - Logout")
+        print("1. View Profile")
+        print("2. Edit Profile")
+        print("3. Delete Account")
+        print("4. Back to Main Menu")
+        print("5. Logout")
 
         try:
             choice = int(input("Choose: "))
@@ -425,4 +424,4 @@ def user_menu(user):
             return None
         
         else:
-        print("Pilihan salah")
+            print("Invalid option! Please choose 1-5.")
