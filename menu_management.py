@@ -1,4 +1,4 @@
-from menu_database import get_menu, add_menu_item
+from menu_database import get_menu, add_menu_item, menu_list
 
 #View the menu
 def view_menu(menu_dict, allow_edit=False):
@@ -89,19 +89,27 @@ def edit_delete_item(menu_dict):
         print("Item updated successfully!")
 
     elif edit_choice == "d":
-        # Ask for confirmation before deleting
-        confirm = input(f"Are you sure you want to delete '{selected_item['item']}'? (y/n): ").strip().lower()
+        confirm = input(
+            f"Are you sure you want to delete '{selected_item['item']}'? (y/n): "
+        ).strip().lower()
+
         if confirm == "y":
-            menu_dict.remove(selected_item)
-            print("Item deleted successfully!")
-        else:
-            print("Delete cancelled.")
+            try:
+                menu_list.remove(selected_item)
+                print("Item deleted successfully!")
+            except ValueError:
+                print("Item not found in main menu.")
 
 #Add item
-def add_item(menu_dict):
+def add_item():
     category = input("Enter category: ").strip().title()
     item_name = input("Enter item name: ").strip().title()
-    price = int(input("Enter price: ").strip())
+    while True:
+        try:
+            price = int(input("Enter price: ").strip())
+            break
+        except ValueError:
+            print("Price must be a number.")
 
     add_menu_item({
         "category": category,
@@ -113,6 +121,5 @@ def add_item(menu_dict):
 
 
 if __name__ == "__main__":
-    menu = get_menu()
-    view_menu(menu, allow_edit=True)
-    search_menu(menu)
+    view_menu(get_menu(), allow_edit=True)
+    search_menu(get_menu())

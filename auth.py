@@ -1,53 +1,44 @@
-#Dictionary untuk menyimpan semua data user
+# Dictionary to store all user data
 users = {}
 
-#1. Validasi Awal
-
-# Mengecek apakah input hanya huruf alfabet
+# ---------- BASIC VALIDATION ----------
 def only_alpha(text):
-    return text.isalpha()
+    return all(c.isalpha() or c == " " for c in text)
 
-#Mengecek apakah input hanya angka aja
 def only_int(text):
     return text.isdigit()
 
-#Mengecek apakah input bisa dikonversi menjadi float
 def only_float(text):
     try:
-        float (text)
+        float(text)
         return True
     except:
         return False
 
-#2. Validasi Email
+
+# ---------- EMAIL VALIDATION ----------
 def validate_email(email):
-    #Email harus punya satu @ 
     if email.count("@") != 1:
         return False
-    
-    #Pisahkan username dan domain
+
     user, domain = email.split("@")
 
-    #Username tidak boleh kosong dan domain harus punya titik
     if user == "" or "." not in domain:
         return False
-    
-    #Karakter pertama username harus huruf/angka
+
     if not user[0].isalnum():
         return False
-    
-    #Username hanya boleh huruf, angka, . dan _
+
     for c in user:
-        if not (c.isalnum() or c in"._"):
+        if not (c.isalnum() or c in "._"):
             return False
-    
+
     return True
 
-#3. Validasi User ID
+
+# ---------- USER ID VALIDATION ----------
 def validate_userid(uid):
-    # tidak boleh ada spasi di awal / akhir
-    if uid != uid.strip():
-        return False
+    uid = uid.strip()
 
     if len(uid) < 6 or len(uid) > 20:
         return False
@@ -56,39 +47,31 @@ def validate_userid(uid):
     has_digit = False
 
     for c in uid:
-        # huruf, angka, dan spasi diperbolehkan
         if not (c.isalnum() or c == " "):
             return False
-
         if c.isalpha():
             has_letter = True
         if c.isdigit():
             has_digit = True
 
-    # harus kombinasi huruf dan angka
     if not (has_letter and has_digit):
         return False
 
-    # tidak boleh duplikat
     if uid in users:
         return False
 
     return True
 
 
-#4. Validasi Password
+# ---------- PASSWORD VALIDATION ----------
 def validate_password(pw):
-    #Panjang password minimal 8 karakter
     if len(pw) < 8:
         return False
+    
+    special = "/.,@#$%"
 
-    #Karakter spesial boleh dipakai di password
-    special = "/.,@#$%" 
-
-    #Harus ada huruf kapital, kecil, special karakter,dan angka
     up = low = digit = spec = False
 
-    #Cek isi password
     for c in pw:
         if c.isupper():
             up = True
@@ -98,236 +81,345 @@ def validate_password(pw):
             digit = True
         if c in special:
             spec = True
-    
-    #Jika semua syarat terpenuhi
-    return up and low and digit and spec 
 
-# 5. Registrasi User
+    return up and low and digit and spec
+
+
+# ---------- REGISTRATION ----------
 def register():
-    print ("\n Selamat Datang New Member, Silakan Registrasi")
-    print ("Masukkan Data Diri Anda:")
+    print("\nWelcome New Member, Please Register")
+    print("Enter Your Personal Data:")
 
-    # *UserId*
+    # ---------- UserID ----------
+    print("\n[UserID Rules]")
+    print("- Length 6–20 characters")
+    print("- Must contain letters and numbers")
+    print("- No special characters")
+    print("- Must be unique")
+
     while True:
-        uid = input ("UserID:")
+        uid = input("UserID: ").strip()
         if validate_userid(uid):
             break
-        print ("UserId salah / sudah ada")
-        print ("Masukkan user id kembali")
+        print("UserID invalid or already exists")
 
-    #*Password*
+    # ---------- Password ----------
+    print("\n[Password Rules]")
+    print("- Minimum 8 characters")
+    print("- Must contain uppercase letter")
+    print("- Must contain lowercase letter")
+    print("- Must contain number")
+    print("- Must contain special character (/ . , @ # $ %)")
+
     while True:
-        pw= input ("Password:")
+        pw = input("Password: ")
         if validate_password(pw):
             break
-        print ("Password tidak memenuhi Syarat")
-        print ("Masukkan password kembali")
-    
-    #*Email*
+        print("Password does not meet requirements")
+
+    # ---------- Email ----------
+    print("\n[Email Rules]")
+    print("- Must contain @")
+    print("- Domain must contain dot")
+    print("- Example: user@mail.com")
+
     while True:
-        email = input ("Email:")
+        email = input("Email: ").strip()
         if validate_email(email):
             break
-        print ("Format Email Salah ")
-        print ("Masukkan Email kembali")
+        print("Invalid email format")
 
-    #*Nama*
+    # ---------- Name ----------
+    print("\n[Name Rules]")
+    print("- Letters only")
+    print("- Spaces allowed")
+
     while True:
-        nama = input ("Nama:")
-        if nama.strip() != "" and all(c.isalpha() or c == " " for c in nama):
+        name = input("Name: ").strip()
+        if name and all(c.isalpha() or c == " " for c in name):
             break
-        print("Nama hanya boleh alfabet")
-        print ("Masukkan Nama kembali")
-    
-    #*Gender*
+        print("Name must contain only letters")
+
+    # ---------- Gender ----------
+    print("\n[Gender Rules]")
+    print("- Input: Male or Female")
+
     while True:
-        gender = input ("Gender (Pria/Wanita):")
-        if gender.lower() in ["pria", "wanita"]:
+        gender = input("Gender (Male/Female): ").strip().lower()
+        if gender in ["male", "female"]:
             break
-        print("Masukan Pria/ Wanita")
-        print ("Masukkan Gender kembali")
-    
-    #*Usia*
+        print("Please input Male or Female")
+
+    # ---------- Age ----------
+    print("\n[Age Rules]")
+    print("- Between 17 and 80")
+
     while True:
-        usia = input ("Usia:")
-        if only_int(usia):
-            usia = int(usia)
-            if 17 <= usia <= 80: 
+        age = input("Age: ")
+        if only_int(age):
+            age = int(age)
+            if 17 <= age <= 80:
                 break
-        print("Usia harus 17 - 80")
-        print ("Masukkan Usia kembali")
+        print("Age must be between 17 and 80")
 
-    #Pekerjaan
+    # ---------- Job ----------
+    print("\n[Job Rules]")
+    print("- Letters only")
+
     while True:
-        job = input ("Pekerjaan:")
-        if only_alpha(job): 
+        job = input("Job: ").strip()
+        if only_alpha(job):
             break
-        print("Pekerjaan hanya boleh alphabet")
-        print ("Masukkan Pekerjaan kembali")
-    
-    #Hobi
+        print("Job must contain letters only")
+
+    # ---------- Hobby ----------
+    print("\n[Hobby Rules]")
+    print("- Minimum two words")
+    print("- Alphabet only")
+
     while True:
-        hobby = input ("Hobi (masukkan lebih dari satu):")
+        hobby = input("Hobby: ").strip()
         hobby_kata = hobby.split()
 
-        #Cek apakah sudah lebih dari satu alfabet
         if len(hobby_kata) > 1 and all(w.isalpha() for w in hobby_kata):
             break
-        print("Hobi minimal dua kata alfabet")
-        print("Masukkan Hobi kembali")
+        print("Hobby must contain at least two alphabet words")
 
-    #Alamat
-    print("\nAlamat")
+    # ---------- Address ----------
+    print("\nAddress Information")
 
     while True:
-        kota = input ("Nama Kota:")
-        if only_alpha(kota):
+        city = input("City Name: ").strip()
+        if only_alpha(city):
             break
-        print("Nama kota harus alfabet")
+        print("City must contain letters only")
 
     while True:
-        rt = input ("RT:")
+        rt = input("RT: ")
         if only_int(rt):
             break
-        print("Format RT harus angka")
+        print("RT must be numeric")
 
     while True:
-        rw= input ("RW:")
+        rw = input("RW: ")
         if only_int(rw):
             break
-        print("Format RW harus angka")
+        print("RW must be numeric")
 
     while True:
-        zipcode= input ("Zip Code:")
-        if only_int(zipcode) and len (zipcode) == 5:
+        zipcode = input("Zip Code (5 digits): ")
+        if only_int(zipcode) and len(zipcode) == 5:
             break
-        print("Format ZIP harus angka dan 5 digit")
+        print("ZIP must be 5 digits")
 
-    #titik kordinat
-    print ("\nGeo")
+    # ---------- Coordinates ----------
+    print("\nGeo Coordinates Example: -6.200 or 106.816")
 
     while True:
-        lat = input ("Lat:")
+        lat = input("Latitude: ")
         if only_float(lat):
             break
-        print("Format latitude salah")
-    
+        print("Invalid latitude format")
+
     while True:
-        longtitude = input ("Longitude:")
-        if only_float(longtitude):
+        longitude = input("Longitude: ")
+        if only_float(longitude):
             break
-        print ("Format Longtitude salah")
-    
-    #Nomor HP
-    while True: 
-        hp = input ("No Hp:")
-        if only_int (hp) and 11 <= len(hp) <= 13: 
+        print("Invalid longitude format")
+
+    # ---------- Phone ----------
+    print("\n[Phone Number Rules]")
+    print("- Numeric only")
+    print("- Length 11–13 digits")
+
+    while True:
+        phone = input("Phone Number: ")
+        if only_int(phone) and 11 <= len(phone) <= 13:
             break
-        print ("Nomor Hp harus 11 - 13 angka")
+        print("Phone number must be 11–13 digits")
 
-    #Simpan Data User
-    print("\n Akun Registrasi")
-    confim = input ("Simpan data (Y/N):")
 
-    if confim.lower() == "y":
-        #Simpan ke dictionary users
+    confirm = input("Save data? (Y/N): ").strip().lower()
+
+    if confirm == "y":
         users[uid] = {
             "password": pw,
-            "name": nama,
+            "name": name,
             "email": email,
             "gender": gender,
-            "usia": usia,
-            "pekerjaan": job,
-            "hobi": hobby,
-            "alamat": {
-                "kota":kota,
+            "age": age,
+            "job": job,
+            "hobby": hobby,
+            "address": {
+                "city": city,
                 "rt": rt,
                 "rw": rw,
                 "zip": zipcode,
                 "lat": lat,
-                "long": longtitude,
+                "long": longitude,
             },
-            "nomor_hp": hp, 
+            "phone": phone,
         }
-        print ("Data tersimpan")
+        print("Registration successful")
     else:
-        print ("Data tidak tersimpan")
+        print("Registration cancelled")
 
-# 6. Login
+
+# ---------- LOGIN ----------
 def login():
-    print("\n====== Login ======")
+    attempts = 0
 
-    percobaan = 0
+    while attempts < 5:
+        print(f"\nLogin attempt ({attempts+1}/5)")
+        uid = input("UserID: ")
+        pw = input("Password: ")
 
-    #Maksimal 5 kali percobaan
-    while percobaan < 5:
-        uid = input ("Masukkan Userid:")
-        pw = input("Masukkan Password:")
-
-        #Jika ID tidak ditemukan
         if uid not in users:
-            print ("ID Tidak Terdaftar")
-            percobaan +=1
-            print (f"percobaan ({percobaan}/5)")
-            continue
-        
-        #Jika Password salah
-        if users[uid] ["password"] != pw:
-            print ("Password anda Salah")
-            percobaan += 1
-            print (f"percobaan ({percobaan}/5)")
+            print("User not registered")
+            attempts += 1
             continue
 
-        #Jika Login berhasil
-        print ("Login Berhasil")
+        if users[uid]["password"] != pw:
+            print("Wrong password")
+            attempts += 1
+            continue
+
+        print("Login successful")
         return uid
-    
-    print ("login gagal 5x anda tidak dapat login sementara")
+
+    print("Too many attempts")
     return None
 
-# 7. Profil User
+
+# ---------- PROFILE ----------
 def profile(uid):
-    u = users [uid]
+    u = users[uid]
 
-    print("\nData Anda")
-    print("Nama :", u["name"])
-    print("Email :", u["email"])
-    print("Gender :", u["gender"])
-    print("Usia :", u["usia"])
-    print("Pekerjaan :", u["pekerjaan"])
-    print("Hobi :", u["hobi"])
+    print("\n=== PROFILE ===")
+    print("Name:", u["name"])
+    print("Email:", u["email"])
+    print("Gender:", u["gender"])
+    print("Age:", u["age"])
+    print("Job:", u["job"])
+    print("Hobby:", u["hobby"])
 
-    print("\nAlamat")
-    print("Kota :", u["alamat"]["kota"])
-    print("RT :", u["alamat"]["rt"])
-    print("RW :", u["alamat"]["rw"])
-    print("Zip :", u["alamat"]["zip"])
+    addr = u["address"]
+
+    print("\nAddress")
+    print("City:", addr["city"])
+    print("RT:", addr["rt"])
+    print("RW:", addr["rw"])
+    print("Zip:", addr["zip"])
 
     print("\nGeo")
-    print("Lat :", u["alamat"]["lat"])
-    print("Longitude :", u["alamat"]["long"])
+    print("Latitude:", addr["lat"])
+    print("Longitude:", addr["long"])
 
-    print("No HP :", u["nomor_hp"])
+    print("Phone:", u["phone"])
+    
+# ---------- Edit User Data ----------
+def edit_profile(uid):
+    u = users[uid]
 
-#8. Menu Utama auth
+    print("\nEdit Profile (Enter to skip)")
 
-while True:
-    print("\n1. Register")
-    print("2. Login")
-    print("3. Exit")
+    new_name = input(f"Name ({u['name']}): ").strip()
+    if new_name:
+        u["name"] = new_name
 
-    pilih = input("Pilih: ")
+    new_email = input(f"Email ({u['email']}): ").strip()
+    if new_email and validate_email(new_email):
+        u["email"] = new_email
 
-    if pilih == "1":
-        register()
+    new_job = input(f"Job ({u['job']}): ").strip()
+    if new_job:
+        u["job"] = new_job
 
-    elif pilih == "2":
-        user = login()
-        if user:
+    new_phone = input(f"Phone ({u['phone']}): ").strip()
+    if new_phone and only_int(new_phone):
+        u["phone"] = new_phone
+
+    print("Profile updated successfully")
+
+# ---------- Delete Account ----------
+def delete_account(uid):
+    confirm = input("Delete account permanently? (Y/N): ").lower()
+
+    if confirm == "y":
+        del users[uid]
+        print("Account deleted")
+        return True
+
+    print("Deletion cancelled")
+    return False
+
+# ---------- View Users ----------
+def view_users():
+    if not users:
+        print("No users registered")
+        return
+
+    print("\n=== REGISTERED USERS ===")
+    for uid, data in users.items():
+        print(f"{uid} - {data['name']}")
+
+
+    
+# ---------- AUTH MENU ----------
+def auth_menu():
+    while True:
+        print("\n=== AUTH MENU ===")
+        print("Commands:")
+        print("1 - Register new user")
+        print("2 - Login")
+        print("3 - Exit program")
+
+        choice = input("Enter command: ")
+
+        if choice == "1":
+            register()
+
+        elif choice == "2":
+            user = login()
+            if user:
+                return user  # langsung kirim user ke main
+
+        elif choice == "3":
+            print("Program closed")
+            return None
+
+        else:
+            print("Invalid command")
+
+# ---------- USER MENU ----------
+def user_menu(user):
+    while True:
+        print("\n=== USER MENU ===")
+        print("Commands:")
+        print("1 - View Profile")
+        print("2 - Edit Profile")
+        print("3 - Delete Account")
+        print("4 - Back to Main Menu")
+        print("5 - Logout")
+
+        opt = input("Enter command: ")
+
+        if opt == "1":
             profile(user)
 
-    elif pilih == "3":
-        break
+        elif opt == "2":
+            edit_profile(user)
+
+        elif opt == "3":
+            if delete_account(user):
+                return None  # akun dihapus
+
+        elif opt == "4":
+            return user  # kembali ke main menu
+
+        elif opt == "5":
+            print("Logged out")
+            return None
 
     else:
         print("Pilihan salah")
