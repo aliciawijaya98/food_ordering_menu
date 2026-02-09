@@ -3,7 +3,7 @@ users = {}
 
 # ---------- BASIC VALIDATION ----------
 def only_alpha(text):
-    return all(c.isalpha() or c == " " for c in text)
+    return all(char.isalpha() or char == " " for char in text)
 
 def only_int(text):
     return text.isdigit()
@@ -29,8 +29,8 @@ def validate_email(email):
     if not user[0].isalnum():
         return False
 
-    for c in user:
-        if not (c.isalnum() or c in "._"):
+    for char in user:
+        if not (char.isalnum() or char in "._"):
             return False
 
     return True
@@ -46,12 +46,12 @@ def validate_userid(uid):
     has_letter = False
     has_digit = False
 
-    for c in uid:
-        if not (c.isalnum() or c == " "):
+    for char in uid:
+        if not (char.isalnum() or c == "._"):
             return False
-        if c.isalpha():
+        if char.isalpha():
             has_letter = True
-        if c.isdigit():
+        if char.isdigit():
             has_digit = True
 
     if not (has_letter and has_digit):
@@ -72,14 +72,14 @@ def validate_password(pw):
 
     up = low = digit = spec = False
 
-    for c in pw:
-        if c.isupper():
+    for char in pw:
+        if char.isupper():
             up = True
-        if c.islower():
+        if char.islower():
             low = True
-        if c.isdigit():
+        if char.isdigit():
             digit = True
-        if c in special:
+        if char in special:
             spec = True
 
     return up and low and digit and spec
@@ -93,8 +93,8 @@ def register():
     # ---------- UserID ----------
     print("\n[UserID Rules]")
     print("- Length 6–20 characters")
-    print("- Can contain letters, numbers, dots (.) and underscores (_)")
-    print("- No other special characters allowed")
+    print("- Must contain at least a letter and number")
+    print("- Only letters, numbers, dot (.) and underscore (_) are allowed")
 
     while True:
         uid = input("UserID: ").strip()
@@ -132,7 +132,7 @@ def register():
 
     while True:
         name = input("Name: ").strip()
-        if name and all(c.isalpha() or c == " " for c in name):
+        if name and all(char.isalpha() or char == " " for char in name):
             break
         print("Name must contain only letters")
 
