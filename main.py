@@ -19,7 +19,7 @@ def main_menu():
     global current_user
 
     while True:
-        print("=== RestoApps ===")
+        print("\n=== RestoApps ===")
 
         menu = []
 

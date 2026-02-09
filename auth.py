@@ -365,27 +365,30 @@ def view_users():
 def auth_menu():
     while True:
         print("\n=== AUTH MENU ===")
-        print("Commands:")
-        print("1 - Register new user")
-        print("2 - Login")
-        print("3 - Exit program")
+        print("1. Register new user")
+        print("2. Login")
+        print("3. Back to Main Menu")
 
-        choice = input("Enter command: ")
+        try:
+            choice = int(input("Choose: "))
+        except ValueError:
+            print("Please enter a valid number!")
+            continue
 
-        if choice == "1":
+        if choice == 1:
             register()
 
-        elif choice == "2":
+        elif choice == 2:
             user = login()
             if user:
                 return user  # langsung kirim user ke main
 
-        elif choice == "3":
-            print("Program closed")
+        elif choice == 3:
+            print("Program closed.")
             return None
 
         else:
-            print("Invalid command")
+            print("Invalid option. Please choose 1-3.")
 
 # ---------- USER MENU ----------
 def user_menu(user):
@@ -398,24 +401,28 @@ def user_menu(user):
         print("4 - Back to Main Menu")
         print("5 - Logout")
 
-        opt = input("Enter command: ")
+        try:
+            choice = int(input("Choose: "))
+        except ValueError:
+            print("Please enter a valid number!")
+            continue
 
-        if opt == "1":
+        if choice == 1:
             profile(user)
 
-        elif opt == "2":
+        elif choice == 2:
             edit_profile(user)
 
-        elif opt == "3":
+        elif choice == 3:
             if delete_account(user):
                 return None  # akun dihapus
 
-        elif opt == "4":
+        elif choice == 4:
             return user  # kembali ke main menu
 
-        elif opt == "5":
+        elif choice == 5:
             print("Logged out")
             return None
-
-    else:
+        
+        else:
         print("Pilihan salah")
