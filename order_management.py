@@ -52,20 +52,36 @@ def add_order(order_type, extra_info, current_user):
     current_order = []
 
     while True:
-        print("=== MENU ===")
+        print("\n=== MENU ===")
         column_width = "{:<5} | {:<20} | {:<55} | {:<10}"
         header = column_width.format("No.", "Category", "Item" , "Price")
         print(header)
         print("-" * len(header))
 
+        #Display the menu
         for i, item in enumerate(current_menu, start=1):
             price_format = f"Rp{item['price']:,}".replace(",",".")
             print(column_width.format(i, item["category"], item["item"], price_format))
         
+        #Display current order
         if current_order:
             print("\nCurrent Order:")
             for i, order in enumerate(current_order, start=1):
                 print(f"{i}. {order['quantity']} x {order['item']} = Rp{order['total']:,}".replace(",", "."))
+
+            #Delete order
+            delete_input = input("Type 'd' to delete an item, or Enter to continue: ").strip().lower()
+            if delete_input == "d":
+                try:
+                    del_index = int(input("Which item number to delete? "))
+                    if 1 <= del_index <= len(current_order):
+                        removed_item = current_order.pop(del_index - 1)
+                        print(f"Removed {removed_item['item']} from order")
+                    else:
+                        print("Invalid item number")
+                except ValueError:
+                    print("Must be a number")
+                continue  #back to take order
 
         #Input item number
         try:
@@ -78,6 +94,7 @@ def add_order(order_type, extra_info, current_user):
             if not current_order:
                 print("No items ordered")
             else:
+                #Save to order dictionary
                 if order_type == "Dine-in":
                     print(f"Finish ordering. Table {extra_info}")
                 else:
@@ -92,6 +109,8 @@ def add_order(order_type, extra_info, current_user):
                         "cashier": current_user,
                         "items": current_order
                     }
+                
+                #Display the final order
                 show_orders(extra_info)
             break 
 
