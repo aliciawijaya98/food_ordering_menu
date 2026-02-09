@@ -55,6 +55,8 @@ def main_menu():
             print("Invalid option. Please try again.")
             continue
         
+        selected_choice = menu[index]
+        
         # ---------- LOGIN / USER MENU ----------
         if selected_choice in ["Login and Register", "User Menu"]:
             # Login/Register flow
