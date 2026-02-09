@@ -21,8 +21,12 @@ def validate_email(email):
     if email.count("@") != 1:
         return False
 
-    user, domain = email.split("@")
+    user, domain_full = email.split("@")
 
+    if not user or not domain:
+        return False
+    
+    #User check
     if user == "" or "." not in domain:
         return False
 
@@ -32,6 +36,20 @@ def validate_email(email):
     for char in user:
         if not (char.isalnum() or char in "._"):
             return False
+
+    #Domain check   
+    if domain_full.count(".") != 1:
+        return False
+    
+    hosting, extension = domain_full.split(".")
+
+    #Hosting check
+    if not hosting.isalnum():
+        return False
+    
+    #Extension check
+    if not extension.isalpha() or len(extension) > 5:
+        return False
 
     return True
 
@@ -317,25 +335,42 @@ def profile(uid):
 def edit_profile(uid):
     u = users[uid]
 
-    print("\nEdit Profile (Enter to skip)")
+    print("\n=== Edit Profile ===")
+    print("Press Enter to skip any field.\n")
 
-    new_name = input(f"Name ({u['name']}): ").strip()
+    # Name
+    print(f"Current Name : {u['name']}")
+    new_name = input("New Name: ").strip()
     if new_name:
         u["name"] = new_name
 
-    new_email = input(f"Email ({u['email']}): ").strip()
-    if new_email and validate_email(new_email):
-        u["email"] = new_email
+    # Email
+    print(f"\nCurrent Email: {u['email']}")
+    new_email = input("New Email: ").strip()
+    if new_email:
+        if validate_email(new_email):
+            u["email"] = new_email
+        else:
+            print("Invalid email format. Email not updated.")
 
-    new_job = input(f"Job ({u['job']}): ").strip()
+    # Job
+    print(f"\nCurrent Job  : {u['job']}")
+    new_job = input("New Job: ").strip()
     if new_job:
         u["job"] = new_job
 
-    new_phone = input(f"Phone ({u['phone']}): ").strip()
-    if new_phone and only_int(new_phone):
-        u["phone"] = new_phone
+    # Phone
+    print(f"\nCurrent Phone: {u['phone']}")
+    while True:
+        new_phone = input("New Phone: ").strip()
+        if not new_phone:
+            break
+        if only_int(new_phone) and 11 <= len(new_phone) <= 13:
+                u["phone"] = new_phone
+            else:
+                print("Phone must be numeric and 11-13 digits. Try again.")
 
-    print("Profile updated successfully")
+    print("\n✅ Profile updated successfully.")
 
 # ---------- Delete Account ----------
 def delete_account(uid):
