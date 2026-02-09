@@ -23,6 +23,6 @@ def get_menu():
 #Add a new item to the menu
 def add_menu_item(item_dict):
     if "category" in item_dict and \
-       "item" in item_dict and \
-       "price" in item_dict:
+        "item" in item_dict and \
+        "price" in item_dict:
         menu_list.append(item_dict)
