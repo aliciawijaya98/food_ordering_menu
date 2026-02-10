@@ -23,11 +23,8 @@ def validate_email(email):
 
     user, domain_full = email.split("@")
 
-    if not user or not domain_full:
-        return False
-    
     #User check
-    if user == "" or "." not in domain_full:
+    if not user or not "." in domain_full:
         return False
 
     if not user[0].isalnum():
