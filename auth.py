@@ -373,10 +373,48 @@ def edit_profile(uid):
             break
         if only_int(new_phone) and 11 <= len(new_phone) <= 13:
             u["phone"] = new_phone
+            break
         else:
             print("Phone must be numeric and 11-13 digits. Try again.")
 
-    print("\n Profile updated successfully.")
+    # Address
+    addr = u["address"]
+
+    print("\n--- Address Update ---")
+
+    print(f"Current City: {addr['city']}")
+    new_city = input("New City: ").strip()
+    if new_city and only_alpha(new_city):
+        addr["city"] = new_city
+
+    print(f"Current RT: {addr['rt']}")
+    new_rt = input("New RT: ").strip()
+    if new_rt and only_int(new_rt):
+        addr["rt"] = new_rt
+
+    print(f"Current RW: {addr['rw']}")
+    new_rw = input("New RW: ").strip()
+    if new_rw and only_int(new_rw):
+        addr["rw"] = new_rw
+
+    print(f"Current Zip: {addr['zip']}")
+    new_zip = input("New Zip Code: ").strip()
+    if new_zip and only_int(new_zip) and len(new_zip) == 5:
+        addr["zip"] = new_zip
+        
+    # Geo
+    
+    print(f"Current Latitude: {addr['lat']}")
+    new_lat = input("New Latitude: ").strip()
+    if new_lat and only_float(new_lat):
+        addr["lat"] = new_lat
+
+    print(f"Current Longitude: {addr['long']}")
+    new_long = input("New Longitude: ").strip()
+    if new_long and only_float(new_long):
+        addr["long"] = new_long
+
+    print("\nProfile updated successfully.")
 
 # ---------- Delete Account ----------
 def delete_account(uid):
