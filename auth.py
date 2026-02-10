@@ -23,11 +23,11 @@ def validate_email(email):
 
     user, domain_full = email.split("@")
 
-    if not user or not domain:
+    if not user or not domain_full:
         return False
     
     #User check
-    if user == "" or "." not in domain:
+    if user == "" or "." not in domain_full:
         return False
 
     if not user[0].isalnum():
@@ -65,7 +65,7 @@ def validate_userid(uid):
     has_digit = False
 
     for char in uid:
-        if not (char.isalnum() or c == "._"):
+        if not (char.isalnum() or char in "._"):
             return False
         if char.isalpha():
             has_letter = True
@@ -87,8 +87,13 @@ def validate_password(pw):
         return False
     
     special = "/.,@#$%"
+    allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" + special
 
     up = low = digit = spec = False
+    
+    for char in pw:
+        if char not in allowed:
+            return False
 
     for char in pw:
         if char.isupper():
@@ -263,7 +268,7 @@ def register():
             "gender": gender,
             "age": age,
             "job": job,
-            "hobby": hobby,
+            "hobby": hobbies,
             "address": {
                 "city": city,
                 "rt": rt,
@@ -315,7 +320,8 @@ def profile(uid):
     print("Gender:", u["gender"])
     print("Age:", u["age"])
     print("Job:", u["job"])
-    print("Hobby:", u["hobby"])
+    print("Hobby:", ", ".join(u["hobby"]))
+
 
     addr = u["address"]
 
@@ -366,9 +372,9 @@ def edit_profile(uid):
         if not new_phone:
             break
         if only_int(new_phone) and 11 <= len(new_phone) <= 13:
-                u["phone"] = new_phone
-            else:
-                print("Phone must be numeric and 11-13 digits. Try again.")
+            u["phone"] = new_phone
+        else:
+            print("Phone must be numeric and 11-13 digits. Try again.")
 
     print("\n Profile updated successfully.")
 
