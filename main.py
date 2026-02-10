@@ -96,7 +96,7 @@ def main_menu():
             current_user = None
 
         # ---------- EXIT PROGRAM ----------
-        elif choice == "Exit Program":
+        elif selected_choice == "Exit Program":
             print("Session ended")
             break
 
