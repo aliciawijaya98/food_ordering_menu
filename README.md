@@ -11,14 +11,14 @@ This project was developed as part of the **Purwadhika Data Science & Machine Le
 
 ## Project Structure
 food_ordering_menu/
-│
-├── README.md # Project documentation
-├── LICENSE.md # Project license
-├── main.py # Main entry point to run the app
-├── auth.py # User authentication and admin login
-├── menu_database.py # Database or data storage for menu items
-├── menu_management.py # Functions for adding, editing, deleting menu items
-└── order_management.py # Functions to take and manage customer orders
+`│
+`├── README.md # Project documentation
+`├── LICENSE.md # Project license
+`├── main.py # Main entry point to run the app
+`├── auth.py # User authentication and admin login
+`├── menu_database.py # Database or data storage for menu items
+`├── menu_management.py # Functions for adding, editing, deleting menu items
+`└── order_management.py # Functions to take and manage customer orders
 
 ## Development Team
 - Alicia Wijaya — [GitHub](https://github.com/aliciawijaya98)
