@@ -21,6 +21,7 @@ def main_menu():
     while True:
         print("\n=== RestoApps ===")
 
+        # Temporary list to hold current menu options
         menu = []
 
         # Show login option if user not logged in
@@ -114,6 +115,7 @@ def menu_management():
         print("4. Search menu")
         print("5. Back to Main Menu")
 
+        # Get user input for submenu choice
         try:
             user_input = int(input("Choose between 1-5: "))
         except ValueError:
@@ -150,11 +152,12 @@ def order_management():
     global current_user
 
     while True:
-        print("\n--- ORDER MENU ---")
+        print("\n=== ORDER MENU ===")
         print("1. Take order")
         print("2. Review order")
         print("3. Back to Main Menu")
 
+        # Get user input for submenu choice
         try:
             user_input = int(input("Choose between 1-3: "))
         except ValueError:
