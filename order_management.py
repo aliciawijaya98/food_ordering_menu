@@ -70,7 +70,7 @@ def takeaway(current_user):
     print(f"Takeaway selected. Invoice number: {invoice_num}")
     add_order("Takeaway", invoice_num, current_user)
 
-def add_order(order_type, table_num=None, invoice_num=None, current_user):
+def add_order(order_type, table_num=None, invoice_num=None, current_user=None):
 
     # Fetch latest menu
     current_menu = get_menu()
