@@ -18,7 +18,7 @@ food_menu = [
 ]
 #Return the lastest menu
 def get_menu():
-    return food_menu()
+    return food_menu
 
 #Add a new item to the menu
 def add_menu_item(new_item):
